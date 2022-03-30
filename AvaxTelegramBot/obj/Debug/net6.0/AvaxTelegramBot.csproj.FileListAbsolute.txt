@@ -17,3 +17,11 @@ E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\obj\Debug\net6.0\ref
 E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\obj\Debug\net6.0\AvaxTelegramBot.pdb
 E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\obj\Debug\net6.0\AvaxTelegramBot.genruntimeconfig.cache
 E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\obj\Debug\net6.0\ref\AvaxTelegramBot.dll
+E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll
+E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Physical.dll
+E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\bin\Debug\net6.0\Microsoft.Extensions.FileSystemGlobbing.dll
+E:\Projects\AvaxTelegramBot\AvaxTelegramBot\AvaxTelegramBot\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
