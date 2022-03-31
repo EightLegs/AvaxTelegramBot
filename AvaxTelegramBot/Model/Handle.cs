@@ -11,6 +11,9 @@ using Telegram.Bot.Exceptions;
 using System.Timers;
 using System.Net;
 
+
+using AngleSharp;
+
 namespace AvaxTelegramBot.Model
 {
     public static class Handle
@@ -41,7 +44,8 @@ namespace AvaxTelegramBot.Model
 
         private static async Task HandleEveryTenSecondsMessage(ITelegramBotClient botClient, Update update)
         {
-            if (Timer1 != null && Timer1.Enabled)
+            await HandleTimer(botClient, update);
+            /*if (Timer1 != null && Timer1.Enabled)
             {
                 Timer1.Stop();
                 Timer1.Dispose();
@@ -49,19 +53,26 @@ namespace AvaxTelegramBot.Model
 
             else
             {
-                Timer1 = new System.Timers.Timer(1000);
+                Timer1 = new System.Timers.Timer(100000000);
                 Timer1.Elapsed += async (sender, e) => await HandleTimer(botClient, update);
                 Timer1.Start();
-            }
+            }*/
         }
         private static async Task HandleTimer(ITelegramBotClient botClient, Update update)
         {
             using (WebClient wc = new WebClient())
             {
-                //var json = wc.DownloadString("");
-                // Or you can get the file content without saving it
-                string htmlCode = wc.DownloadString("https://snowtrace.io/blocks");
+                string html = wc.DownloadString("https://snowtrace.io/blocks");
+
+
+                var config = Configuration.Default;
+                var context = BrowsingContext.New(config);
+                var doc = await context.OpenAsync(req => req.Content(html));
+
+                var element = doc.QuerySelector("td");
+
                 int b = 5;
+
             }
             await botClient.SendTextMessageAsync(update.Message.Chat, "Привет-привет!!");
         }
