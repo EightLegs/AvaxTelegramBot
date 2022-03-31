@@ -19,6 +19,16 @@ namespace AvaxTelegramBot.Model
         public string GasLimit { get; set; }
         public string BurnedAvax { get; set; }
 
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as Block);
+        }
+
+        public bool Equals(Block? other)
+        {
+            return other != null &&
+                   Id == other.Id;
+        }
         public Block(AngleSharp.Dom.IElement element)
         {
 
