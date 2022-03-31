@@ -8,6 +8,8 @@ using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Exceptions;
 
+using System.Timers;
+
 namespace AvaxTelegramBot.Model
 {
     public static class Handle
@@ -21,9 +23,9 @@ namespace AvaxTelegramBot.Model
                 var message = update.Message;
                 if (message.Text.ToLower() == "/start")
                 {
-                    await botClient.SendTextMessageAsync(message.Chat, "Бот Avax\nВыдает информацию о новых появившихся контрактах (адрес контракта, ссылку на контракт)");
-                    await botClient.SendTextMessageAsync(message.Chat, "/start - повторить сообщение\n/contracts - информация о контрактах\n");
-
+                    //await botClient.SendTextMessageAsync(message.Chat, "Бот Avax\nВыдает информацию о новых появившихся контрактах (адрес контракта, ссылку на контракт)");
+                    // await botClient.SendTextMessageAsync(message.Chat, "/start - повторить сообщение\n/contracts - информация о контрактах\n");
+                    await HandleEveryTenSecondsMessage(botClient, update);
                     return;
                 }
                 await botClient.SendTextMessageAsync(message.Chat, "Привет-привет!!");
@@ -36,5 +38,18 @@ namespace AvaxTelegramBot.Model
             Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(exception));
         }
 
+        private static async Task HandleEveryTenSecondsMessage(ITelegramBotClient botClient, Update update)
+        {
+            System.Timers.Timer Timer1 = new System.Timers.Timer();
+            Timer1.Interval = 1000;
+            Timer1.Elapsed += async (sender, e) => await HandleTimer(botClient, update);
+            Timer1.Start();
+        }
+        private static async Task HandleTimer(ITelegramBotClient botClient, Update update)
+        {
+            Console.WriteLine("\nHenlo");
+            await botClient.SendTextMessageAsync(update.Message.Chat, "Привет-привет!!");
+            //throw new NotImplementedException();
+        }
     }
 }

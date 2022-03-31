@@ -3,13 +3,20 @@ using AvaxTelegramBot.Model.Commands;
 
 namespace AvaxTelegramBot.Model
 {
-    public class Bot
+    public class Bot : TelegramBotClient
     {
-        private static TelegramBotClient botClient;
-        private static List<Command> commandsList;
+        //private static TelegramBotClient botClient;
+        //private static List<Command> commandsList;
 
-        public static IReadOnlyList<Command> Commands => commandsList.AsReadOnly();
-        public static async Task<TelegramBotClient> GetBotClientAsync()
+        public string KeyToken { get; set; }
+
+        public Bot(string token, HttpClient? httpClient = null, string? baseUrl = null) : base(token, httpClient, baseUrl)
+        {
+            KeyToken = token;
+        }
+
+       // public static IReadOnlyList<Command> Commands => commandsList.AsReadOnly();
+        /*public static async Task<TelegramBotClient> GetBotClientAsync()
         {
             if (botClient != null)
                 return botClient;
@@ -22,6 +29,7 @@ namespace AvaxTelegramBot.Model
 
             await botClient.SetWebhookAsync(hook);
             return botClient;
-        }
+        }*/
+
     }
 }
