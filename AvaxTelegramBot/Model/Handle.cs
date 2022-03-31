@@ -9,11 +9,14 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Exceptions;
 
 using System.Timers;
+using System.Net;
 
 namespace AvaxTelegramBot.Model
 {
     public static class Handle
     {
+        //public static bool ShouldWork { get; set; } = false;
+        public static System.Timers.Timer Timer1 { get; set; }
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             // Некоторые действия
@@ -23,12 +26,10 @@ namespace AvaxTelegramBot.Model
                 var message = update.Message;
                 if (message.Text.ToLower() == "/start")
                 {
-                    //await botClient.SendTextMessageAsync(message.Chat, "Бот Avax\nВыдает информацию о новых появившихся контрактах (адрес контракта, ссылку на контракт)");
-                    // await botClient.SendTextMessageAsync(message.Chat, "/start - повторить сообщение\n/contracts - информация о контрактах\n");
                     await HandleEveryTenSecondsMessage(botClient, update);
                     return;
                 }
-                await botClient.SendTextMessageAsync(message.Chat, "Привет-привет!!");
+                await botClient.SendTextMessageAsync(message.Chat, "/start - начать/прекратить информирование");
             }
         }
 
@@ -40,16 +41,29 @@ namespace AvaxTelegramBot.Model
 
         private static async Task HandleEveryTenSecondsMessage(ITelegramBotClient botClient, Update update)
         {
-            System.Timers.Timer Timer1 = new System.Timers.Timer();
-            Timer1.Interval = 1000;
-            Timer1.Elapsed += async (sender, e) => await HandleTimer(botClient, update);
-            Timer1.Start();
+            if (Timer1 != null && Timer1.Enabled)
+            {
+                Timer1.Stop();
+                Timer1.Dispose();
+            }
+
+            else
+            {
+                Timer1 = new System.Timers.Timer(1000);
+                Timer1.Elapsed += async (sender, e) => await HandleTimer(botClient, update);
+                Timer1.Start();
+            }
         }
         private static async Task HandleTimer(ITelegramBotClient botClient, Update update)
         {
-            Console.WriteLine("\nHenlo");
+            using (WebClient wc = new WebClient())
+            {
+                //var json = wc.DownloadString("");
+                // Or you can get the file content without saving it
+                string htmlCode = wc.DownloadString("https://snowtrace.io/blocks");
+                int b = 5;
+            }
             await botClient.SendTextMessageAsync(update.Message.Chat, "Привет-привет!!");
-            //throw new NotImplementedException();
         }
     }
 }
