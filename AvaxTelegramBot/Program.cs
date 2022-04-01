@@ -22,10 +22,11 @@ namespace AvaxTelegramBot
             // получаем строку подключения из файла appsettings.json
             string connectionString = config.GetConnectionString("DefaultConnection");
             string keyToken = config.GetSection("botData")["Key"];
+            string apiKey = config.GetSection("AvaxApi")["Key"];
 
             //ITelegramBotClient bot = botClientMake();
-            
-            ITelegramBotClient bot = new Bot(keyToken);
+
+            Bot bot = new Bot(keyToken, apiKey);
 
             Console.WriteLine("Запущен бот " + bot.GetMeAsync().Result.FirstName);
 

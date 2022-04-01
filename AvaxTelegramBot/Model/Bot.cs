@@ -7,12 +7,14 @@ namespace AvaxTelegramBot.Model
     {
         //private static TelegramBotClient botClient;
         //private static List<Command> commandsList;
-
+        public string? LastBlockID { get; set; } = null;
+        public string? ApiKey { get; set; }
         public string KeyToken { get; set; }
 
-        public Bot(string token, HttpClient? httpClient = null, string? baseUrl = null) : base(token, httpClient, baseUrl)
+        public Bot(string token, string apikey, HttpClient? httpClient = null, string? baseUrl = null) : base(token, httpClient, baseUrl)
         {
             KeyToken = token;
+            ApiKey = apikey;
         }
 
        // public static IReadOnlyList<Command> Commands => commandsList.AsReadOnly();
@@ -26,7 +28,7 @@ namespace AvaxTelegramBot.Model
 
             botClient = new TelegramBotClient(AppSettings.Key);
             string hook = string.Format(AppSettings.Url, "api/message/update");
-
+         
             await botClient.SetWebhookAsync(hook);
             return botClient;
         }*/

@@ -13,12 +13,12 @@ using System.Net;
 
 
 using AngleSharp;
+using Newtonsoft.Json.Linq;
 
 namespace AvaxTelegramBot.Model
 {
     public static class Handle
     {
-        //public static bool ShouldWork { get; set; } = false;
         public static System.Timers.Timer Timer1 { get; set; }
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
@@ -62,7 +62,28 @@ namespace AvaxTelegramBot.Model
         {
             using (WebClient wc = new WebClient())
             {
-                string html = wc.DownloadString("https://snowtrace.io/blocks");
+
+                if (((Bot)botClient).LastBlockID == null)
+                {
+                    string jsonString = wc.DownloadString(String.Format("https://api.snowtrace.io/api?module=block&action=getblocknobytime&timestamp={0}&closest=before&apikey={1}", DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ((Bot)botClient).ApiKey));
+                    JObject json = JObject.Parse(jsonString);
+                    if(json["status"].ToString() == "1")
+                        ((Bot)botClient).LastBlockID = json["result"].ToString();
+                    int b = 5;
+                }
+                else
+                {
+
+                }
+            }
+            await botClient.SendTextMessageAsync(update.Message.Chat, "Привет-привет!!");
+        }
+    }
+}
+
+
+/*
+                 string html = wc.DownloadString("https://snowtrace.io/blocks");
 
 
                 var config = Configuration.Default;
@@ -70,11 +91,5 @@ namespace AvaxTelegramBot.Model
                 var doc = await context.OpenAsync(req => req.Content(html));
 
                 var element = doc.QuerySelector("td");
-
-                int b = 5;
-
-            }
-            await botClient.SendTextMessageAsync(update.Message.Chat, "Привет-привет!!");
-        }
-    }
-}
+ 
+ */
