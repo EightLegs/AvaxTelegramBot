@@ -7,7 +7,7 @@ namespace AvaxTelegramBot.Model
     {
         //private static TelegramBotClient botClient;
         //private static List<Command> commandsList;
-        public string? LastBlockID { get; set; } = null;
+        public ulong? LastBlockID { get; set; } = null;
         public string? ApiKey { get; set; }
         public string KeyToken { get; set; }
 
