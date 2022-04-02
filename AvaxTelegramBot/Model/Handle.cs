@@ -84,7 +84,28 @@ namespace AvaxTelegramBot.Model
             ulong difference = ulong.Parse(((Bot)botClient).LastBlockID) - ulong.Parse(oldLastBlockID);
 
             //for(ulong i = ulong.Parse(oldLastBlockID) + 1; i < ulong.Parse(((Bot)botClient).LastBlockID); ++i)
+            using (WebClient wc = new WebClient())
+            {
+                string htmlString = wc.DownloadString("https://snowtrace.io/blocks");
+                var config = Configuration.Default;
+                var context = BrowsingContext.New(config);
+                var doc = await context.OpenAsync(req => req.Content(htmlString));
 
+                var elements = doc.QuerySelectorAll("td");
+                foreach (var element in elements)
+                {
+                    if(element.Children.Length > 1)
+                    {
+                        int k = 5;
+                        int a = 5;
+                    }
+                    string htmlInner1 = element.Children[0].InnerHtml;
+                    string htmlInner = element.InnerHtml;
+                    int b = 5;
+                }
+            }
+
+            //8
             List<Block> blocks = GetBlocks(botClient, ulong.Parse(oldLastBlockID), ulong.Parse(((Bot)botClient).LastBlockID));
 
             //await botClient.SendTextMessageAsync(update.Message.Chat, "Новые  " + oldLastBlockID + " " + ((Bot)botClient).LastBlockID);
@@ -113,15 +134,20 @@ namespace AvaxTelegramBot.Model
         private static List<Block> GetBlocks(ITelegramBotClient botClient, ulong firstBlock, ulong lastBlock)
         {
             List<Block> blocks = new List<Block>();
-            using (WebClient wc = new WebClient())
-            {
-                for (ulong i = firstBlock; i < lastBlock; ++i)
-                {
-                    string jsonString = wc.DownloadString(String.Format("https://api.snowtrace.io/api?module=block&action=getblockreward&blockno={0}&apikey={1}", i.ToString(), ((Bot)botClient).ApiKey));
-                    JObject json = JObject.Parse(jsonString);
-                    //blocks.Add(new Block())
-                }
-            }
+            /*            using (WebClient wc = new WebClient())
+                        {
+                            for (ulong i = firstBlock; i < lastBlock; ++i)
+                            {
+                                string htmlString = wc.DownloadString("https://snowtrace.io/blocks");
+                                var config = Configuration.Default;
+                                var context = BrowsingContext.New(config);
+                                var doc = await context.OpenAsync(req => req.Content(htmlString));
+
+                                var element = doc.Qu  //doc.QuerySelector("td");
+
+                                //blocks.Add(new Block())
+                            }
+                        }*/
 
 
             return blocks;
