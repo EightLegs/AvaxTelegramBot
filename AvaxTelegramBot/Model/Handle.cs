@@ -117,6 +117,8 @@ namespace AvaxTelegramBot.Model
             foreach (Block block in newBlocks)
                 botClient.SendTextMessageAsync(update.Message.Chat, block.InformationString());
         }
+
+        //TO DO парсинг контрактов по блоку https://snowtrace.io/txsInternal
         //TO DO возможно перенести функции в класс Bot
         private static ulong GetLastBlockID(ITelegramBotClient botClient)
         {
