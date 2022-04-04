@@ -7,7 +7,7 @@ namespace AvaxTelegramBot.Model.Commands
     {
         public abstract string Name { get; }
 
-        public abstract Task Execute(Message message, TelegramBotClient client);
+        public abstract Task Execute(ITelegramBotClient botClient, Update update);
 
         public abstract bool Contains(Message message);
     }
