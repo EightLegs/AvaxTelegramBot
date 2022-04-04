@@ -19,15 +19,39 @@ namespace AvaxTelegramBot.Model.Commands
         {
             try
             {
-                await Bot.Commands.First(x => x.Name == "/stop").Execute(botClient, update);
+                ulong? blockID = null;
 
-                //await botClient.SendTextMessageAsync(update.Message.Chat, ex.Message);
+                string message = update.Message.Text;
+                if(!message.Contains(Name))
+                {
+                    blockID = ulong.Parse(message);
+                }
+                else if (update.Message.Text.Split(" ").Length > 1)
+                {
+                    blockID = ulong.Parse(update.Message.Text.Split(" ")[1]);
+                }
+                else 
+                {
+                    await Bot.Commands.First(x => x.Name == "/stop").Execute(botClient, update);
+                    await botClient.SendTextMessageAsync(update.Message.Chat, "Для вывода информации о контрактах блока введите blockID");
+
+                    Bot.BlockIDWait = true;
+                    return;
+                }
+
+                string = 
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update));
                 await botClient.SendTextMessageAsync(update.Message.Chat, ex.Message);
             }
+        }
+
+        private string blockContract(ulong blockID)
+        {
+            string result = null;
         }
     }
 }

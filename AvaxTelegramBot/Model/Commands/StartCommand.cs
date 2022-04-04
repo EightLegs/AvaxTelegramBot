@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace AvaxTelegramBot.Model.Commands
 {
-    public class StartCommand : Command
+    internal class StartCommand : Command
     {
         public override string Name => @"/start";
         public override bool Contains(Message message)
@@ -51,32 +51,40 @@ namespace AvaxTelegramBot.Model.Commands
 
             botClient.SendTextMessageAsync(update.Message.Chat, String.Format("{0} - {1}", oldBlockId, lastBlockId));
 
-            List<Block> newBlocks = new List<Block>();
-
-            using (WebClient wc = new WebClient())
+            try 
             {
-                string htmlString = wc.DownloadString("https://snowtrace.io/blocks");
-                var config = Configuration.Default;
-                var context = BrowsingContext.New(config);
-                var doc = await context.OpenAsync(req => req.Content(htmlString));
-                var tbody = doc.QuerySelector("tbody");
-                var trList = tbody.QuerySelectorAll("tr");
+                List<Block> newBlocks = new List<Block>();
 
-                foreach (var tr in trList)
+                using (WebClient wc = new WebClient())
                 {
-                    if (tr.Children.Length == Block.ParseFieldCount)
-                    {
-                        Block block = new Block(tr);
+                    string htmlString = wc.DownloadString("https://snowtrace.io/blocks");
+                    var config = Configuration.Default;
+                    var context = BrowsingContext.New(config);
+                    var doc = await context.OpenAsync(req => req.Content(htmlString));
+                    var tbody = doc.QuerySelector("tbody");
+                    var trList = tbody.QuerySelectorAll("tr");
 
-                        if (block.Id < lastBlockId && block.Id >= oldBlockId)
-                            newBlocks.Add(block);
+                    foreach (var tr in trList)
+                    {
+                        if (tr.Children.Length == Block.ParseFieldCount)
+                        {
+                            Block block = new Block(tr);
+
+                            if (block.Id < lastBlockId && block.Id >= oldBlockId)
+                                newBlocks.Add(block);
+                        }
                     }
                 }
-            }
 
-            newBlocks.Sort();
-            foreach (Block block in newBlocks)
-                botClient.SendTextMessageAsync(update.Message.Chat, block.InformationString());
+                newBlocks.Sort();
+                foreach (Block block in newBlocks)
+                    botClient.SendTextMessageAsync(update.Message.Chat, block.InformationString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update));
+                await botClient.SendTextMessageAsync(update.Message.Chat, ex.Message);
+            }
         }
         private static ulong GetLastBlockID(ITelegramBotClient botClient)
         {

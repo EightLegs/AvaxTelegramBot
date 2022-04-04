@@ -21,27 +21,7 @@ namespace AvaxTelegramBot.Model
         public string BurnedAvax { get; set; }
 
         public static int ParseFieldCount { get; set; } = 8;
-        /*
-        public override bool Equals(object? obj)
-        {
-            return Equals(obj as Block);
-        }
 
-        public bool Equals(Block? other)
-        {
-            return other != null &&
-                   Id == other.Id;
-        }
-
-        public static bool operator >(Block block1, Block block2)
-        {
-            return block1.Id > block2.Id;
-        }
-        public static bool operator <(Block block1, Block block2)
-        {
-            return block1.Id < block2.Id;
-        }
-        */
         public Block(AngleSharp.Dom.IElement element)
         {
             Id = ulong.Parse(element.Children[0].TextContent);
@@ -68,3 +48,24 @@ namespace AvaxTelegramBot.Model
         }
     }
 }
+/*
+public override bool Equals(object? obj)
+{
+    return Equals(obj as Block);
+}
+
+public bool Equals(Block? other)
+{
+    return other != null &&
+           Id == other.Id;
+}
+
+public static bool operator >(Block block1, Block block2)
+{
+    return block1.Id > block2.Id;
+}
+public static bool operator <(Block block1, Block block2)
+{
+    return block1.Id < block2.Id;
+}
+*/

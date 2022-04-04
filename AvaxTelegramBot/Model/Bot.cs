@@ -8,8 +8,8 @@ namespace AvaxTelegramBot.Model
         public ulong? LastBlockID { get; set; } = null;
         public string? ApiKey { get; set; }
         public string KeyToken { get; set; }
+        public static bool BlockIDWait { get; set; } = false;
         public static System.Timers.Timer Timer1 { get; set; }
-
 
         private static List<Command> commandsList;
         public static IReadOnlyList<Command> Commands => commandsList.AsReadOnly();
