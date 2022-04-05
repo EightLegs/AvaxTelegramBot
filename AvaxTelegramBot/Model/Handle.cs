@@ -31,32 +31,33 @@ namespace AvaxTelegramBot.Model
             if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
             {
                 var message = update.Message;
-                if(!Bot.BlockIDWait)
+                if (message.Text.StartsWith(@"/"))
                 {
-                    try
+                    foreach (var command in Bot.Commands)
                     {
-                        ulong blockID = ulong.Parse(message.ToString());
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update));
-                        await botClient.SendTextMessageAsync(update.Message.Chat, ex.Message);
-                    }
-                }
-                foreach (var command in Bot.Commands)
-                {
-                    if(!Bot.BlockIDWait)
-                    {
-                        var messageBlockID = new Message();
-                        messageBlockID.Text = "/blockinfo";
-                        
-                        if (command.Contains(messageBlockID))
+                        if (Bot.BlockIDWait)
+                        {
+                            ulong blockId;
+                            bool isblockId = ulong.TryParse(message.Text, out blockId);
+                            if (isblockId)
+                            {
+                                message.Text = String.Format("/blockinfo {0}", message.Text);
+                            }
+                            else
+                            {
+                                botClient.SendTextMessageAsync(update.Message.Chat, "Неверный blockID\n Попробуйте /blockinfo <blockId>");
+                                Bot.BlockIDWait = false;
+                            }
+                            //var updateBlockID = new Update();
+                            //updateBlockID.Message.Text = String.Format("/blockinfo {0}", message.Text);
+
+                            //if (command.Contains(new Message(){ Text = "/blockinfo" }))
+                            //await command.Execute(botClient, updateBlockID);
+                        }
+                        if (command.Contains(message))
                             await command.Execute(botClient, update);
                     }
-                    if (command.Contains(message))
-                        await command.Execute(botClient, update);
                 }
-                //await botClient.SendTextMessageAsync(message.Chat, "/start - начать/прекратить информирование");
             }
         }
 

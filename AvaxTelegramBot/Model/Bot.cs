@@ -22,6 +22,7 @@ namespace AvaxTelegramBot.Model
             commandsList = new List<Command>();
             commandsList.Add(new StartCommand());
             commandsList.Add(new StopCommand());
+            commandsList.Add(new BlockInfoCommand());
         }
     }
 }
