@@ -24,8 +24,6 @@ namespace AvaxTelegramBot
             string keyToken = config.GetSection("botData")["Key"];
             string apiKey = config.GetSection("AvaxApi")["Key"];
 
-            //ITelegramBotClient bot = botClientMake();
-
             Bot bot = new Bot(keyToken, apiKey);
 
             Console.WriteLine("Запущен бот " + bot.GetMeAsync().Result.FirstName);
@@ -46,16 +44,3 @@ namespace AvaxTelegramBot
         }
     }
 }
-
-/*        static ITelegramBotClient botClientMake()
-        {
-            // получаем конфигурацию из файла appsettings.json
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-            IConfigurationRoot config = builder.Build();
-
-            // получаем строку подключения из файла appsettings.json
-            string connectionString = config.GetConnectionString("DefaultConnection");
-            string keyToken = config.GetSection("botData")["Key"];
-            ITelegramBotClient bot = new TelegramBotClient(keyToken);
-            return bot;
-        }*/

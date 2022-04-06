@@ -35,24 +35,19 @@ namespace AvaxTelegramBot.Model
                 {
                     foreach (var command in Bot.Commands)
                     {
-                        if (Bot.BlockIDWait)
+                        if (Bot.BlockIDWait && !message.Text.StartsWith(@"/transactions"))
                         {
                             ulong blockId;
                             bool isblockId = ulong.TryParse(message.Text, out blockId);
                             if (isblockId)
                             {
-                                message.Text = String.Format("/blockinfo {0}", message.Text);
+                                message.Text = String.Format("/transactions {0}", message.Text);
                             }
                             else
                             {
-                                botClient.SendTextMessageAsync(update.Message.Chat, "Неверный blockID\n Попробуйте /blockinfo <blockId>");
+                                botClient.SendTextMessageAsync(update.Message.Chat, "Неверный blockID\n Попробуйте /transactions <blockId>");
                                 Bot.BlockIDWait = false;
                             }
-                            //var updateBlockID = new Update();
-                            //updateBlockID.Message.Text = String.Format("/blockinfo {0}", message.Text);
-
-                            //if (command.Contains(new Message(){ Text = "/blockinfo" }))
-                            //await command.Execute(botClient, updateBlockID);
                         }
                         if (command.Contains(message))
                             await command.Execute(botClient, update);
@@ -66,10 +61,5 @@ namespace AvaxTelegramBot.Model
             // Некоторые действия
             Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(exception));
         }
-
-        //TO DO парсинг контрактов по блоку https://snowtrace.io/txsInternal
-        //TO DO возможно перенести функции в класс Bot
-
-
     }
 }

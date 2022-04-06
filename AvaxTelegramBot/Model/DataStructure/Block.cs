@@ -13,7 +13,7 @@ namespace AvaxTelegramBot.Model
     {
         public ulong Id { get; set; }
         public DateTime DateTime { get; set; }
-        public string TimeAgo { get; set; }
+        public string Age { get; set; }
         public string Txn { get; set; }
         public string Hash { get; set; }
         public string GasUsed { get; set; }
@@ -26,7 +26,7 @@ namespace AvaxTelegramBot.Model
         {
             Id = ulong.Parse(element.Children[0].TextContent);
             DateTime = DateTime.Parse(element.Children[1].TextContent);
-            TimeAgo = element.Children[2].TextContent;
+            Age = element.Children[2].TextContent;
             Txn = element.Children[3].TextContent;
             Hash = element.Children[4].TextContent;
             GasUsed = element.Children[5].TextContent;
@@ -36,7 +36,7 @@ namespace AvaxTelegramBot.Model
 
         public string InformationString()
         {
-            return String.Format("Block with id {0}\nAdded {1} ({2})\nTxn : {3}\nHash : {4}\nGasUed : {5}\nGasLimit : {6}\nAvaxBurned : {7}", Id.ToString(),DateTime.ToString(),TimeAgo,Txn,Hash,GasUsed,GasLimit,BurnedAvax);
+            return String.Format("Block with id {0}\nAdded {1} ({2})\nTxn : {3}\nHash : {4}\nGasUed : {5}\nGasLimit : {6}\nAvaxBurned : {7}", Id.ToString(),DateTime.ToString(),Age,Txn,Hash,GasUsed,GasLimit,BurnedAvax);
         }
 
         public int CompareTo(object? obj)
@@ -48,24 +48,3 @@ namespace AvaxTelegramBot.Model
         }
     }
 }
-/*
-public override bool Equals(object? obj)
-{
-    return Equals(obj as Block);
-}
-
-public bool Equals(Block? other)
-{
-    return other != null &&
-           Id == other.Id;
-}
-
-public static bool operator >(Block block1, Block block2)
-{
-    return block1.Id > block2.Id;
-}
-public static bool operator <(Block block1, Block block2)
-{
-    return block1.Id < block2.Id;
-}
-*/

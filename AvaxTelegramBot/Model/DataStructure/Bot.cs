@@ -5,8 +5,8 @@ namespace AvaxTelegramBot.Model
 {
     public class Bot : TelegramBotClient
     {
-        public ulong? LastBlockID { get; set; } = null;
-        public string? ApiKey { get; set; }
+        public ulong LastBlockID { get; set; }
+        public string ApiKey { get; set; }
         public string KeyToken { get; set; }
         public static bool BlockIDWait { get; set; } = false;
         public static System.Timers.Timer Timer1 { get; set; }
@@ -22,7 +22,7 @@ namespace AvaxTelegramBot.Model
             commandsList = new List<Command>();
             commandsList.Add(new StartCommand());
             commandsList.Add(new StopCommand());
-            commandsList.Add(new BlockInfoCommand());
+            commandsList.Add(new TransactionsCommand());
         }
     }
 }

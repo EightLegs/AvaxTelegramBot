@@ -4,6 +4,7 @@ using AngleSharp;
 using System.Net;
 using Newtonsoft.Json.Linq;
 
+
 namespace AvaxTelegramBot.Model.Commands
 {
     internal class StartCommand : Command
@@ -45,7 +46,7 @@ namespace AvaxTelegramBot.Model.Commands
                 return;
             }
 
-            ulong oldBlockId = (ulong)((Bot)botClient).LastBlockID;
+            ulong oldBlockId = (ulong)((Bot)botClient).LastBlockID != 0 ? (ulong)((Bot)botClient).LastBlockID : GetLastBlockID(botClient);
             ((Bot)botClient).LastBlockID = GetLastBlockID(botClient);
             ulong lastBlockId = (ulong)((Bot)botClient).LastBlockID;
 
